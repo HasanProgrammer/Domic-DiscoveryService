@@ -1,0 +1,57 @@
+name: 'discovery_service'
+
+services:
+  
+  domic.discovery.api:
+    networks:
+      - domic
+    image: discovery_service:1.0.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - "1100-1120:443"
+    volumes:
+      - log:/app/CoreLogs
+      - ~\.aspnet\https\:/https/
+    environment:
+      - E-RabbitMQ-Host=host.docker.internal
+      - E-RabbitMQ-Port=5672
+      - E-RabbitMQ-Username=guest
+      - E-RabbitMQ-Password=guest
+      - I-RabbitMQ-Host=
+      - I-RabbitMQ-Port=
+      - I-RabbitMQ-Username=
+      - I-RabbitMQ-Password=
+      - RedisConnectionString=
+      - MongoConnectionString=mongodb://sa:Hasan313313!!@domic.discovery.mongo:27017
+      - C-SqlServerConnectionString=
+      - Q-SqlServerConnectionString=
+      - Host=domic.discovery.api
+      - Port=443
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=Dotris313@313%%
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/Karami.WebAPI.pfx
+    depends_on:
+      - domic.discovery.mongo
+
+  domic.discovery.mongo:
+    networks:
+      - domic
+    image: mongo
+    container_name: 'discovery_mongo'
+    restart: always
+    ports:
+      - 27020:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=sa
+      - MONGO_INITDB_ROOT_PASSWORD=Hasan313313!!
+
+volumes:
+  log:
+    
+networks:
+  domic:
+    external: true
