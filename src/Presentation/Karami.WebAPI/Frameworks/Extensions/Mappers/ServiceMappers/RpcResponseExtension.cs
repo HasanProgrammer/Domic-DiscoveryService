@@ -55,7 +55,7 @@ public static partial class RpcResponseExtension
         {
             var body = new ReadAllResponseBody();
             
-            body.Service.AddRange(
+            body.Services.AddRange(
                 models.Select(model => new Service {
                     Host      = new String { Value = model.Host }      ,
                     IpAddress = new String { Value = model.IPAddress } ,
