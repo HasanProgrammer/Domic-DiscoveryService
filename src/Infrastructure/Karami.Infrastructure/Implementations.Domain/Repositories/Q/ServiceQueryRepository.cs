@@ -52,13 +52,15 @@ public class ServiceQueryRepository : IServiceQueryRepository
     {
         var targetServices =
             await _dbContext.Find<ServiceModel, ServiceQuery>()
+                            .Match(s => s.Status == true)
                             .Project(s => new ServiceQuery {
-                                Id        = s.ID        ,
-                                Name      = s.Name      ,
-                                Host      = s.Host      ,
-                                IPAddress = s.IPAddress ,
-                                Port      = s.Port      ,
-                                Status    = s.Status
+                                Id           = s.ID        ,
+                                Name         = s.Name      ,
+                                Host         = s.Host      ,
+                                IPAddress    = s.IPAddress ,
+                                Port         = s.Port      ,
+                                Status       = s.Status    ,
+                                ResponseTime = s.ResponseTime
                             })
                             .ExecuteAsync(cancellationToken);
         
@@ -89,7 +91,7 @@ public class ServiceQueryRepository : IServiceQueryRepository
     {
         var targetServices =
             await _dbContext.Find<ServiceModel, ServiceQuery>()
-                            .Match(s => s.Name.Equals(service) && s.Status)
+                            .Match(s => s.Name.Equals(service) && s.Status == true)
                             .Project(s => new ServiceQuery {
                                 Id        = s.ID        ,
                                 Name      = s.Name      ,

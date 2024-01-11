@@ -8,10 +8,8 @@ public class ReadOneQueryHandler : IQueryHandler<ReadOneQuery, ServicesViewModel
 {
     private readonly IServiceQueryRepository _serviceQueryRepository;
 
-    public ReadOneQueryHandler(IServiceQueryRepository serviceQueryRepository)
-    {
-        _serviceQueryRepository = serviceQueryRepository;
-    }
+    public ReadOneQueryHandler(IServiceQueryRepository serviceQueryRepository) 
+        => _serviceQueryRepository = serviceQueryRepository;
 
     public async Task<ServicesViewModel> HandleAsync(ReadOneQuery query, CancellationToken cancellationToken)
     {

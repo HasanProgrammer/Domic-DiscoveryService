@@ -1,6 +1,8 @@
 using Grpc.Core;
 using Karami.Core.Grpc.Service;
 using Karami.Core.UseCase.Contracts.Interfaces;
+using Karami.UseCase.ServiceUseCase.Queries.ReadAll;
+using Karami.UseCase.ServiceUseCase.Queries.ReadAllByName;
 using Karami.UseCase.ServiceUseCase.Queries.ReadOne;
 using Karami.WebAPI.Frameworks.Extensions.Mappers.ServiceMappers;
 
@@ -29,6 +31,22 @@ public class ServiceRPC : DiscoveryService.DiscoveryServiceBase
             await _mediator.DispatchAsync(request.ToQuery<ReadOneQuery>(), context.CancellationToken);
 
         return result.ToRpcResponse<ReadOneResponse>(_configuration);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public override async Task<ReadAllByNameResponse> ReadAllByName(ReadAllByNameRequest request, 
+        ServerCallContext context
+    )
+    {
+        var result =
+            await _mediator.DispatchAsync(request.ToQuery<ReadAllByNameQuery>(), context.CancellationToken);
+
+        return result.ToRpcResponse<ReadAllByNameResponse>(_configuration);
     }
 
     /// <summary>

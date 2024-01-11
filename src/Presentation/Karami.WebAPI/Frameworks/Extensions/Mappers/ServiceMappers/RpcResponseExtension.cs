@@ -51,15 +51,39 @@ public static partial class RpcResponseExtension
     {
         object Response = null;
 
-        if (typeof(T) == typeof(ReadAllResponse))
+        if (typeof(T) == typeof(ReadAllByNameResponse))
+        {
+            var body = new ReadAllByNameResponseBody();
+            
+            body.Services.AddRange(
+                models.Select(model => new Service {
+                    Host         = new String { Value = model.Host }         ,
+                    IpAddress    = new String { Value = model.IPAddress }    ,
+                    Port         = new Int32  { Value = model.Port }         ,
+                    Name         = new String { Value = model.Name }         ,
+                    ResponseTime = new Int32  { Value = model.ResponseTime } ,
+                    Status       = model.Status 
+                })
+            );
+            
+            Response = new ReadAllByNameResponse {
+                Code    = configuration.GetSuccessStatusCode()       ,
+                Message = configuration.GetSuccessFetchDataMessage() ,
+                Body    = body
+            };
+        }
+        else if (typeof(T) == typeof(ReadAllResponse))
         {
             var body = new ReadAllResponseBody();
             
             body.Services.AddRange(
                 models.Select(model => new Service {
-                    Host      = new String { Value = model.Host }      ,
-                    IpAddress = new String { Value = model.IPAddress } ,
-                    Port      = new Int32  { Value = model.Port }
+                    Host         = new String { Value = model.Host }         ,
+                    IpAddress    = new String { Value = model.IPAddress }    ,
+                    Port         = new Int32  { Value = model.Port }         ,
+                    Name         = new String { Value = model.Name }         ,
+                    ResponseTime = new Int32  { Value = model.ResponseTime } ,
+                    Status       = model.Status 
                 })
             );
             
