@@ -85,8 +85,8 @@ public class HealthCheckJob : BackgroundService
                 );
             }
             
-            //10s wait
-            await Task.Delay(10000);
+            //60s wait
+            await Task.Delay(60000);
         }
     }
 }
