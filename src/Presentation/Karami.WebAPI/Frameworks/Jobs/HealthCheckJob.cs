@@ -28,7 +28,7 @@ public class HealthCheckJob : BackgroundService
             using var scope = _serviceScopeFactory.CreateScope();
 
             var serviceQueryRepository = scope.ServiceProvider.GetRequiredService<IServiceQueryRepository>();
-            var dotrisDateTime         = scope.ServiceProvider.GetRequiredService<IDotrisDateTime>();
+            var dotrisDateTime         = scope.ServiceProvider.GetRequiredService<IDateTime>();
             var messageBroker          = scope.ServiceProvider.GetRequiredService<IMessageBroker>();
 
             try
