@@ -24,7 +24,7 @@ builder.RegisterCommandQueryUseCases();
 builder.RegisterQueryRepositories();
 builder.RegisterJobs();
 builder.RegisterMessageBroker();
-builder.RegisterEventsSubscriber();
+builder.RegisterMessagesSubscriber();
 builder.RegisterGrpcServer();
 
 builder.Services.AddMvc();
