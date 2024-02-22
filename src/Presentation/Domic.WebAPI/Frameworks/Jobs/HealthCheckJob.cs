@@ -85,11 +85,11 @@ public class HealthCheckJob : BackgroundService
                 e.FileLogger(_hostEnvironment, dateTime);
                 
                 e.ElasticStackExceptionLogger(_hostEnvironment, globalUniqueIdGenerator, dateTime, serviceName, 
-                    nameof(MessageConsumerJob)
+                    nameof(HealthCheckJob)
                 );
                 
                 e.CentralExceptionLogger(_hostEnvironment, globalUniqueIdGenerator, messageBroker, dateTime, 
-                    serviceName, nameof(MessageConsumerJob)
+                    serviceName, nameof(HealthCheckJob)
                 );
             }
             

@@ -1,10 +1,13 @@
 using Domic.Core.Common.ClassModels;
+using Domic.Core.Domain.Constants;
+using Domic.Core.UseCase.Commons.Attributes;
 using Domic.Core.UseCase.Contracts.Interfaces;
 using Domic.Domain.Service.Contracts.Interfaces;
 using Domic.Domain.Service.Entities;
 
 namespace Domic.UseCase.ServiceUseCase.Events;
 
+[Consumer(Queue = Broker.ServiceRegistry_Queue)]
 public class RegistredServiceConsumerMessageBus : IConsumerMessageBusHandler<ServiceStatus>
 {
     private readonly IServiceQueryRepository _serviceQueryRepository;
