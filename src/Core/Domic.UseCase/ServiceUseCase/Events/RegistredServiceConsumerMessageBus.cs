@@ -1,5 +1,7 @@
+using Domic.Core.Common.ClassConsts;
 using Domic.Core.Common.ClassModels;
 using Domic.Core.Domain.Constants;
+using Domic.Core.UseCase.Attributes;
 using Domic.Core.UseCase.Commons.Attributes;
 using Domic.Core.UseCase.Contracts.Interfaces;
 using Domic.Domain.Service.Contracts.Interfaces;
@@ -15,6 +17,7 @@ public class RegistredServiceConsumerMessageBus : IConsumerMessageBusHandler<Ser
     public RegistredServiceConsumerMessageBus(IServiceQueryRepository serviceQueryRepository) 
         => _serviceQueryRepository = serviceQueryRepository;
     
+    [TransactionConfig(Type = TransactionType.Query)]
     public void Handle(ServiceStatus message)
     {
         var targetService =
