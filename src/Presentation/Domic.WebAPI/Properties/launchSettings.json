@@ -29,7 +29,7 @@
         "I-RabbitMQ-Username": "",
         "I-RabbitMQ-Password": "",
         "RedisConnectionString": "127.0.0.1:6379",
-        "MongoConnectionString": "mongodb://domic:Domic123!@#@127.0.0.1:27017",
+        "MongoConnectionString": "mongodb://domic:434624@127.0.0.1:27017",
         "C-SqlServerConnectionString": "",
         "Q-SqlServerConnectionString": "",
         "Host": "localhost",
