@@ -8,9 +8,9 @@ namespace Domic.WebAPI.Frameworks.Jobs;
 
 public class HealthCheckJob : BackgroundService
 {
-    private readonly IHostEnvironment         _hostEnvironment;
-    private readonly IConfiguration           _configuration;
-    private readonly IServiceScopeFactory     _serviceScopeFactory;
+    private readonly IHostEnvironment     _hostEnvironment;
+    private readonly IConfiguration       _configuration;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
 
     public HealthCheckJob(IServiceScopeFactory serviceScopeFactory, IHostEnvironment hostEnvironment,
         IConfiguration configuration
@@ -27,25 +27,31 @@ public class HealthCheckJob : BackgroundService
         {
             using var scope = _serviceScopeFactory.CreateScope();
 
-            var serviceQueryRepository  = scope.ServiceProvider.GetRequiredService<IServiceQueryRepository>();
-            var dateTime                = scope.ServiceProvider.GetRequiredService<IDateTime>();
-            var messageBroker           = scope.ServiceProvider.GetRequiredService<IMessageBroker>();
-            var globalUniqueIdGenerator = scope.ServiceProvider.GetRequiredService<IGlobalUniqueIdGenerator>();
+            var serviceQueryRepository   = scope.ServiceProvider.GetRequiredService<IServiceQueryRepository>();
+            var dateTime                 = scope.ServiceProvider.GetRequiredService<IDateTime>();
+            var messageBroker            = scope.ServiceProvider.GetRequiredService<IMessageBroker>();
+            var globalUniqueIdGenerator  = scope.ServiceProvider.GetRequiredService<IGlobalUniqueIdGenerator>();
+            var externalDistributedCache = scope.ServiceProvider.GetRequiredService<IExternalDistributedCache>();
+            var serializer               = scope.ServiceProvider.GetRequiredService<ISerializer>();
 
             try
             {
                 foreach (var targetService in await serviceQueryRepository.FindAllAsync(stoppingToken))
                 {
-                    //If target service is unreachable ( status = false ) must be removed
+                    #if false
+
+                    //if target service is unreachable ( status = false ) must be removed
 
                     if (!targetService.Status)
                         await serviceQueryRepository.RemoveAsync(targetService.Id, stoppingToken);
+                    
+                    #endif
 
                     var stopWatch = new Stopwatch();
                 
                     try
                     {
-                        //Send request to target service ( health-check ) route
+                        //send request to target service ( health-check ) route
                         
                         using var httpClient = new HttpClient(new HttpClientHandler {
                             ServerCertificateCustomValidationCallback = (message, certificate2, arg3, arg4) => true
@@ -74,9 +80,21 @@ public class HealthCheckJob : BackgroundService
                     finally
                     {
                         targetService.ResponseTime = (int)stopWatch.Elapsed.TotalSeconds;
+                        
                         await serviceQueryRepository.ChangeAsync(targetService, stoppingToken);
                     }
                 }
+                
+                #region DistributedCachedServicesInfoProcessing
+                
+                var services = await serviceQueryRepository.FindAllAsync(stoppingToken);
+                
+                await externalDistributedCache.SetCacheValueAsync(
+                    new KeyValuePair<string, string>("ServicesInfo", serializer.Serialize(services)),
+                    cancellationToken: stoppingToken
+                );
+
+                #endregion
             }
             catch (Exception e)
             {
