@@ -26,6 +26,7 @@ builder.RegisterJobs();
 builder.RegisterMessageBroker();
 builder.RegisterMessagesSubscriber();
 builder.RegisterGrpcServer();
+builder.RegisterDistributedCaching();
 
 builder.Services.AddMvc();
 builder.Services.AddHostedService<HealthCheckJob>();

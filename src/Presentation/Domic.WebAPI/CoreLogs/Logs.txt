@@ -70,3 +70,9 @@
    at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
    at Domic.WebAPI.Frameworks.Jobs.HealthCheckJob.ExecuteAsync(CancellationToken stoppingToken) in D:\Programming\Hasan Company\Programming ASP\DotrisCompany\DiscoveryService\src\Presentation\Domic.WebAPI\Frameworks\Jobs\HealthCheckJob.cs:line 58 
 
+
+ Date: 1403/03/17 | Message: No service for type 'Domic.Core.Domain.Contracts.Interfaces.IConsumerEventQueryRepository' has been registered. | Source: System.InvalidOperationException: No service for type 'Domic.Core.Domain.Contracts.Interfaces.IConsumerEventQueryRepository' has been registered.
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at Domic.Core.Infrastructure.Concretes.MessageBroker._MessageOfQueueHandleAsync(IModel channel, BasicDeliverEventArgs args, Object message, IServiceProvider serviceProvider, CancellationToken cancellationToken) 
+
