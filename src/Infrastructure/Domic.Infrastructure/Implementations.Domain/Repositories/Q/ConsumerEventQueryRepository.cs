@@ -3,7 +3,6 @@ using Domic.Core.Domain.Contracts.Interfaces;
 using Domic.Core.Domain.Entities;
 using Domic.Persistence.Models;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using MongoDB.Driver;
 using MongoDB.Entities;
 
@@ -13,11 +12,11 @@ public class ConsumerEventQueryRepository : IConsumerEventQueryRepository
 {
     private readonly DBContext _dbContext;
     
-    public ConsumerEventQueryRepository(IConfiguration configuration, IHostEnvironment hostEnvironment)
+    public ConsumerEventQueryRepository(IConfiguration configuration)
     {
         var connection = configuration.GetMongoConnectionString();
 
-        _dbContext = new DBContext("ConsumerEventQuery", MongoClientSettings.FromConnectionString(connection));
+        _dbContext = new DBContext("ServiceRegistry", MongoClientSettings.FromConnectionString(connection));
     }
 
     public ConsumerEventQuery FindById(object id)
@@ -32,7 +31,7 @@ public class ConsumerEventQueryRepository : IConsumerEventQueryRepository
                      })
                      .ExecuteFirstAsync().Result;
     
-    public Task<ConsumerEventQuery> FindByIdAsync(object id, CancellationToken cancellationToken) 
+    public Task<ConsumerEventQuery> FindByIdAsync(object id, CancellationToken cancellationToken)
         => _dbContext.Find<ConsumerEventQueryModel, ConsumerEventQuery>()
                      .Match(s => s.ID.Equals(id.ToString()))
                      .Project(s => new ConsumerEventQuery {

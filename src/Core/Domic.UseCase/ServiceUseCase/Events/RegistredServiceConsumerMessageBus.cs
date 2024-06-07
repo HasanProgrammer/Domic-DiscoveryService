@@ -25,7 +25,7 @@ public class RegistredServiceConsumerMessageBus : IConsumerMessageBusHandler<Ser
                 .GetAwaiter()
                 .GetResult();
 
-        if (targetService is null) //Replication management
+        if (targetService is null)
         {
             _serviceQueryRepository.Add(new ServiceQuery {
                 Name      = message.Name                  ,
@@ -45,7 +45,7 @@ public class RegistredServiceConsumerMessageBus : IConsumerMessageBusHandler<Ser
                 cancellationToken
             );
 
-        if (targetService is null) //replication management
+        if (targetService is null)
         {
             _serviceQueryRepository.Add(new ServiceQuery {
                 Name      = message.Name                  ,
