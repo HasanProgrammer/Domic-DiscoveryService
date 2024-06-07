@@ -1,47 +1,33 @@
-﻿using Domic.Core.Common.ClassExtensions;
-using Domic.Core.Domain.Contracts.Interfaces;
+﻿using Domic.Core.Domain.Contracts.Interfaces;
 using Domic.Core.Domain.Entities;
 using Domic.Persistence.Models;
-using Microsoft.Extensions.Configuration;
-using MongoDB.Driver;
 using MongoDB.Entities;
 
 namespace Domic.Infrastructure.Implementations.Domain.Repositories.Q;
 
-public class ConsumerEventQueryRepository : IConsumerEventQueryRepository
+public class ConsumerEventQueryRepository(DBContext dbContext) : IConsumerEventQueryRepository
 {
-    private readonly DBContext _dbContext;
-    
-    public ConsumerEventQueryRepository(IConfiguration configuration)
+    public ConsumerEventQuery FindById(object id)
     {
-        var connection = configuration.GetMongoConnectionString();
+        var result =
+            dbContext.Find<ConsumerEventQueryModel>().Match(s => s.ID == id as string).ExecuteFirstAsync().Result;
 
-        _dbContext = new DBContext("ServiceRegistry", MongoClientSettings.FromConnectionString(connection));
+        if (result is null) return null;
+
+        return new();
     }
 
-    public ConsumerEventQuery FindById(object id)
-        => _dbContext.Find<ConsumerEventQueryModel, ConsumerEventQuery>()
-                     .Match(s => s.ID.Equals(id.ToString()))
-                     .Project(s => new ConsumerEventQuery {
-                         Id = s.ID,
-                         Type = s.Type,
-                         CountOfRetry = s.CountOfRetry,
-                         CreatedAt_EnglishDate = s.CreatedAt_EnglishDate,
-                         CreatedAt_PersianDate = s.CreatedAt_PersianDate
-                     })
-                     .ExecuteFirstAsync().Result;
-    
-    public Task<ConsumerEventQuery> FindByIdAsync(object id, CancellationToken cancellationToken)
-        => _dbContext.Find<ConsumerEventQueryModel, ConsumerEventQuery>()
-                     .Match(s => s.ID.Equals(id.ToString()))
-                     .Project(s => new ConsumerEventQuery {
-                         Id = s.ID,
-                         Type = s.Type,
-                         CountOfRetry = s.CountOfRetry,
-                         CreatedAt_EnglishDate = s.CreatedAt_EnglishDate,
-                         CreatedAt_PersianDate = s.CreatedAt_PersianDate
-                     })
-                     .ExecuteFirstAsync(cancellationToken);
+    public async Task<ConsumerEventQuery> FindByIdAsync(object id, CancellationToken cancellationToken)
+    {
+        var result =
+            await dbContext.Find<ConsumerEventQueryModel>()
+                            .Match(s => s.ID == id as string)
+                            .ExecuteFirstAsync(cancellationToken);
+        
+        if (result is null) return null;
+
+        return new();
+    }
 
     public void Add(ConsumerEventQuery entity)
     {
@@ -53,6 +39,6 @@ public class ConsumerEventQueryRepository : IConsumerEventQueryRepository
             CreatedAt_PersianDate = entity.CreatedAt_PersianDate
         };
         
-        _dbContext.SaveAsync(newModel).GetAwaiter().GetResult();
+        dbContext.SaveAsync(newModel).GetAwaiter().GetResult();
     }
 }

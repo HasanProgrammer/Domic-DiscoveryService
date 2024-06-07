@@ -27,6 +27,7 @@ builder.RegisterMessageBroker();
 builder.RegisterMessagesSubscriber();
 builder.RegisterGrpcServer();
 builder.RegisterDistributedCaching();
+builder.RegisterMongoClient();
 
 builder.Services.AddMvc();
 builder.Services.AddHostedService<HealthCheckJob>();
@@ -71,4 +72,4 @@ application.Run();
 
 //For Integration Test
 
-public partial class Program {}
+public partial class Program;
