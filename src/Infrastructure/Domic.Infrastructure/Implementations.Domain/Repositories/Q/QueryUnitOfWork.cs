@@ -19,7 +19,7 @@ public class QueryUnitOfWork : IQueryUnitOfWork
         _dbContext = new DBContext("ServiceRegistry", MongoClientSettings.FromConnectionString(connection));
     }
     
-    public void Transaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted) 
+    public void Transaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
         => _transaction = _dbContext.Transaction();
 
     public Task TransactionAsync(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted,
