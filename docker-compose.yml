@@ -28,7 +28,7 @@ services:
       - I-RabbitMQ-Username=
       - I-RabbitMQ-Password=
       - RedisConnectionString=
-      - MongoConnectionString=mongodb://sa:Hasan313313!!@domic.discovery.mongo:27017
+      - MongoConnectionString=mongodb://sa:434624@domic.discovery.mongo:27017
       - C-SqlServerConnectionString=
       - Q-SqlServerConnectionString=
       - Host=domic.discovery.api

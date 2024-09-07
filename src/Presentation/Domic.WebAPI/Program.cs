@@ -25,6 +25,7 @@ builder.RegisterQueryRepositories();
 builder.RegisterJobs();
 builder.RegisterMessageBroker();
 builder.RegisterMessagesSubscriber();
+builder.RegisterEventStreamBroker();
 builder.RegisterGrpcServer();
 builder.RegisterDistributedCaching();
 builder.RegisterMongoClient();
