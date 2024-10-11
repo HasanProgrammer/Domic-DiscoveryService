@@ -5,7 +5,8 @@ services:
   domic.discovery.api:
     networks:
       - domic
-    image: discovery_service:1.0.0
+    image: discovery_service_api_image:1.0.0
+    container_name: "discovery_service_api"
     build:
       context: .
       dockerfile: Dockerfile
@@ -16,11 +17,11 @@ services:
       - log:/app/CoreLogs
       - ~\.aspnet\https\:/https/
     environment:
-      - Elastic-Host=http://localhost:9200
+      - Elastic-Host=http://domic.elastic.search:9200
       - Elastic-Index=discovery
-      - Elastic-Username=
-      - Elastic-Password=
-      - E-RabbitMQ-Host=rabbit_mq
+      - Elastic-Username=domic
+      - Elastic-Password=Domic123!@#
+      - E-RabbitMQ-Host=domic.rabbit.mq
       - E-RabbitMQ-Port=5672
       - E-RabbitMQ-Username=domic
       - E-RabbitMQ-Password=Domic123!@#
@@ -28,7 +29,7 @@ services:
       - I-RabbitMQ-Port=
       - I-RabbitMQ-Username=
       - I-RabbitMQ-Password=
-      - E-RedisConnectionString=redis_cache:6379
+      - E-RedisConnectionString=domic.redis:6379
       - I-RedisConnectionString=
       - MongoConnectionString=mongodb://sa:434624@domic.discovery.mongo:27017
       - C-SqlServerConnectionString=
