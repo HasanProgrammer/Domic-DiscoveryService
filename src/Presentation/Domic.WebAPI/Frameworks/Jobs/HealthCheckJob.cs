@@ -76,8 +76,8 @@ public class HealthCheckJob : BackgroundService
                     }
                     catch (Exception e)
                     {
-                        //for debug
-                        e.FileLogger(_hostEnvironment, dateTime);
+                        //fire&forget
+                        e.FileLoggerAsync(_hostEnvironment, dateTime, stoppingToken);
                         
                         targetService.Status = false;
                     }
@@ -131,8 +131,8 @@ public class HealthCheckJob : BackgroundService
                 }
             }
             
-            //60s wait
-            await Task.Delay(60000);
+            //15s wait
+            await Task.Delay(15000);
         }
     }
 }

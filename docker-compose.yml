@@ -28,7 +28,7 @@ services:
       - I-RabbitMQ-Username=
       - I-RabbitMQ-Password=
       - RedisConnectionString=
-      - MongoConnectionString=mongodb://sa:434624@domic.discovery.mongo:27017
+      - MongoConnectionString=mongodb://sa:434624@domic.discovery.mongo.node.1:27017,mongodb://sa:434624@domic.discovery.mongo.node.2:27017,mongodb://sa:434624@domic.discovery.mongo.node.3:27017/?replicaSet=rs0
       - C-SqlServerConnectionString=
       - Q-SqlServerConnectionString=
       - Host=domic.discovery.api
@@ -38,23 +38,74 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Password=Dotris313@313%%
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/Karami.WebAPI.pfx
     depends_on:
-      - domic.discovery.mongo
+      - domic.discovery.mongo.node.1
+      - domic.discovery.mongo.node.2
+      - domic.discovery.mongo.node.3
 
-  domic.discovery.mongo:
+  domic.discovery.mongo.node.1:
     networks:
       - domic
     image: mongo
-    container_name: 'discovery_mongo'
+    container_name: 'discovery_mongo_1'
     restart: always
     ports:
       - 27020:27017
     environment:
       - MONGO_INITDB_ROOT_USERNAME=sa
       - MONGO_INITDB_ROOT_PASSWORD=Hasan313313!!
+    command: mongod --replSet rs0 --bind_ip localhost,discovery_mongo_1
+
+  domic.discovery.mongo.node.2:
+    networks:
+      - domic
+    image: mongo
+    container_name: 'discovery_mongo_2'
+    restart: always
+    ports:
+      - 27021:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=sa
+      - MONGO_INITDB_ROOT_PASSWORD=Hasan313313!!
+    command: mongod --replSet rs0 --bind_ip localhost,discovery_mongo_2
+
+  domic.discovery.mongo.node.3:
+    networks:
+      - domic
+    image: mongo
+    container_name: 'discovery_mongo_3'
+    restart: always
+    ports:
+      - 27022:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=sa
+      - MONGO_INITDB_ROOT_PASSWORD=Hasan313313!!
+    command: mongod --replSet rs0 --bind_ip localhost,discovery_mongo_3
+
+  domic.discovery.mongo.setup:
+    networks:
+      - domic
+    image: mongo:latest
+    depends_on:
+      - discovery_mongo_1
+      - discovery_mongo_2
+      - discovery_mongo_3
+    entrypoint: >
+      bash -c "
+      sleep 5;
+      mongo --host discovery_mongo_1:27017 <<EOF
+      rs.initiate({
+        _id: 'rs0',
+        members: [
+          { _id: 0, host: 'discovery_mongo_1:27017' },
+          { _id: 1, host: 'discovery_mongo_2:27017' },
+          { _id: 2, host: 'discovery_mongo_3:27017' }
+        ]
+      });
+      EOF"
 
 volumes:
   log:
-    
+
 networks:
   domic:
     external: true
