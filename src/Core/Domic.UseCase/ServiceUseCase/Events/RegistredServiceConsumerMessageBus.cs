@@ -56,4 +56,9 @@ public class RegistredServiceConsumerMessageBus : IConsumerMessageBusHandler<Ser
             });
         }
     }
+
+    public void AfterTransactionHandle(ServiceStatus message){}
+
+    public Task AfterTransactionHandleAsync(ServiceStatus message, CancellationToken cancellationToken)
+        => Task.CompletedTask;
 }
