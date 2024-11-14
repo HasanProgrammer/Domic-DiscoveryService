@@ -31,6 +31,7 @@ builder.RegisterDistributedCaching();
 builder.RegisterMongoClient();
 
 builder.Services.AddMvc();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddHostedService<HealthCheckJob>();
 
 #endregion
