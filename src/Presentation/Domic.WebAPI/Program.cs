@@ -29,7 +29,6 @@ builder.RegisterEventStreamBroker();
 builder.RegisterGrpcServer();
 builder.RegisterDistributedCaching();
 builder.RegisterMongoClient();
-builder.RegisterAssemblyTypesInMemory();
 
 builder.Services.AddMvc();
 builder.Services.AddHttpContextAccessor();
