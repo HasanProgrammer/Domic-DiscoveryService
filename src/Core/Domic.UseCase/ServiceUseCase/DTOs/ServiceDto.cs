@@ -1,8 +1,6 @@
-using Domic.Core.UseCase.DTOs.ViewModels;
+namespace Domic.UseCase.ServiceUseCase.DTOs;
 
-namespace Domic.UseCase.ServiceUseCase.DTOs.ViewModels;
-
-public class ServicesViewModel : ViewModel
+public class ServiceDto
 {
     public string Name      { get; set; }
     public string Host      { get; set; }

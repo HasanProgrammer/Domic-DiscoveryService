@@ -1,6 +1,6 @@
 using Domic.Core.Common.ClassExtensions;
 using Domic.Core.Service.Grpc;
-using Domic.UseCase.ServiceUseCase.DTOs.ViewModels;
+using Domic.UseCase.ServiceUseCase.DTOs;
 
 using String = Domic.Core.Service.Grpc.String;
 using Int32  = Domic.Core.Service.Grpc.Int32;
@@ -17,7 +17,7 @@ public static partial class RpcResponseExtension
     /// <param name="configuration"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public static T ToRpcResponse<T>(this ServicesViewModel model, IConfiguration configuration)
+    public static T ToRpcResponse<T>(this ServiceDto model, IConfiguration configuration)
     {
         object Response = null;
 
@@ -47,7 +47,7 @@ public static partial class RpcResponseExtension
     /// <param name="configuration"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public static T ToRpcResponse<T>(this List<ServicesViewModel> models, IConfiguration configuration)
+    public static T ToRpcResponse<T>(this List<ServiceDto> models, IConfiguration configuration)
     {
         object Response = null;
 

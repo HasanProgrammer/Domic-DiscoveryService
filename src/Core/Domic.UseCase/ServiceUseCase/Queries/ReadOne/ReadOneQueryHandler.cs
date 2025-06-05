@@ -1,17 +1,17 @@
 using Domic.Core.UseCase.Contracts.Interfaces;
 using Domic.Domain.Service.Contracts.Interfaces;
-using Domic.UseCase.ServiceUseCase.DTOs.ViewModels;
+using Domic.UseCase.ServiceUseCase.DTOs;
 
 namespace Domic.UseCase.ServiceUseCase.Queries.ReadOne;
 
-public class ReadOneQueryHandler : IQueryHandler<ReadOneQuery, ServicesViewModel>
+public class ReadOneQueryHandler : IQueryHandler<ReadOneQuery, ServiceDto>
 {
     private readonly IServiceQueryRepository _serviceQueryRepository;
 
     public ReadOneQueryHandler(IServiceQueryRepository serviceQueryRepository) 
         => _serviceQueryRepository = serviceQueryRepository;
 
-    public async Task<ServicesViewModel> HandleAsync(ReadOneQuery query, CancellationToken cancellationToken)
+    public async Task<ServiceDto> HandleAsync(ReadOneQuery query, CancellationToken cancellationToken)
     {
         var result = await _serviceQueryRepository.FindAllByServiceNameAsync(query.ServiceName, cancellationToken);
         
