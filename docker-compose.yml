@@ -15,7 +15,7 @@ services:
       - "1100-1120:443"
     volumes:
       - log:/app/CoreLogs
-      - ~\.aspnet\https\:/https/
+      - ~/services/Domic-DiscoveryService/.https/:/https/
     environment:
       - Elastic-Host=http://domic.elastic.search:9200
       - Elastic-Index=discovery
