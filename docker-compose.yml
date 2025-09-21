@@ -31,7 +31,7 @@ services:
       - I-RabbitMQ-Password=
       - E-RedisConnectionString=domic.redis:6379
       - I-RedisConnectionString=
-      - MongoConnectionString=mongodb://sa:434624@domic.discovery.mongo:27017
+      - MongoConnectionString=mongodb://sa:434624@domic.mongo:27017
       - C-SqlServerConnectionString=
       - Q-SqlServerConnectionString=
       - Host=domic.discovery.api
@@ -40,20 +40,20 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=Domic123!@#
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/Domic.WebAPI.pfx
-    depends_on:
-      - domic.discovery.mongo
-
-  domic.discovery.mongo:
-    networks:
-      - domic
-    image: mongo:latest
-    container_name: 'discovery_mongo'
-    restart: on-failure
-    ports:
-      - 27020:27017
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=sa
-      - MONGO_INITDB_ROOT_PASSWORD=434624
+#    depends_on:
+#      - domic.discovery.mongo
+#
+#  domic.discovery.mongo:
+#    networks:
+#      - domic
+#    image: mongo:latest
+#    container_name: 'discovery_mongo'
+#    restart: on-failure
+#    ports:
+#      - 27020:27017
+#    environment:
+#      - MONGO_INITDB_ROOT_USERNAME=sa
+#      - MONGO_INITDB_ROOT_PASSWORD=434624
 
 volumes:
   log:
