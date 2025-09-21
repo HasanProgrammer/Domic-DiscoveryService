@@ -32,7 +32,7 @@ services:
       - E-RedisConnectionString=domic.redis:6379
       - I-RedisConnectionString=
 #     - MongoConnectionString=mongodb://sa:434624@domic.discovery.mongo:27017
-      - MongoConnectionString=mongodb://sa:434624@domic.mongo:27017
+      - MongoConnectionString=mongodb://domic:434624@domic.mongo:27017
       - C-SqlServerConnectionString=
       - Q-SqlServerConnectionString=
       - Host=domic.discovery.api
