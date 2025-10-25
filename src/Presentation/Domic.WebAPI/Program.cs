@@ -52,6 +52,8 @@ if (application.Environment.IsProduction())
 
 application.UseRouting();
 
+application.UseObservibility();
+
 application.UseEndpoints(endpoints => {
 
     #region GRPC's Services
