@@ -49,7 +49,7 @@ services:
 #   networks:
 #     - domic
 #   image: mongo:latest
-#   container_name: 'discovery_mongo'
+#   container_name: 'domic_discovery_mongo'
 #   restart: on-failure
 #   ports:
 #     - 27020:27017
