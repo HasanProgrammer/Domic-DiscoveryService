@@ -31,8 +31,8 @@ services:
       - I-RabbitMQ-Password=
       - E-RedisConnectionString=domic.redis:6379
       - I-RedisConnectionString=
-      - MongoConnectionString=mongodb://sa:434624@domic.mongo.db:27017
-#     - MongoConnectionString=mongodb://sa:434624@domic.discovery.mongo:27017
+      - MongoConnectionString=mongodb://domic:434624@domic.mongo.db:27017?authMechanism=SCRAM-SHA-256
+#     - MongoConnectionString=mongodb://domic:434624@domic.discovery.mongo:27017?authMechanism=SCRAM-SHA-256
       - C-SqlServerConnectionString=
       - Q-SqlServerConnectionString=
       - Host=domic.discovery.service
